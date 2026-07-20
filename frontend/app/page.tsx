@@ -126,6 +126,17 @@ function AgronomyChatBox({ diagnosis }: { diagnosis: PredictResponse }) {
 
 // --- 2. YOUR MAIN PAGE LAYOUT ---
 export default function Home() {
+  const TAXONOMY = [
+  { crop: "Apple", diseases: ["Scab", "Black Rot", "Cedar Rust", "Healthy"] },
+  { crop: "Bell Pepper", diseases: ["Bacterial Spot", "Healthy"] },
+  { crop: "Cherry", diseases: ["Powdery Mildew", "Healthy"] },
+  { crop: "Corn", diseases: ["Cercospora Leaf Spot", "Common Rust", "N. Leaf Blight", "Healthy"] },
+  { crop: "Grape", diseases: ["Black Rot", "Esca", "Leaf Blight", "Healthy"] },
+  { crop: "Peach", diseases: ["Bacterial Spot", "Healthy"] },
+  { crop: "Potato", diseases: ["Early Blight", "Late Blight", "Healthy"] },
+  { crop: "Strawberry", diseases: ["Leaf Scorch", "Healthy"] },
+  { crop: "Tomato", diseases: ["Bacterial Spot", "Early Blight", "Late Blight", "Septoria Leaf Spot", "Yellow Leaf Curl", "Healthy"] },
+];
   const [diagnosis, setDiagnosis] = useState<PredictResponse | null>(null);
 
   const handlePredictionResult = (result: PredictResponse) => {
@@ -237,6 +248,34 @@ export default function Home() {
           </section>
         </div>
       </div>
+      {/* Taxonomy strip */}
+      <footer className="mt-8">
+        <div className="flex items-center gap-2 mb-3">
+          <span
+            className="text-xs uppercase font-mono"
+            style={{ color: "#182420", opacity: 0.55, letterSpacing: "0.12em" }}
+          >
+            Supported Specimens — 29 Classes
+          </span>
+        </div>
+        <div className="flex flex-wrap gap-2">
+          {TAXONOMY.map((t) => (
+            <div
+              key={t.crop}
+              className="rounded-sm px-3 py-1.5"
+              style={{ background: "#EBF1EC", border: "1px solid #B7C6BC" }}
+            >
+              <span className="text-xs font-medium" style={{ color: "#182420" }}>
+                {t.crop}
+              </span>
+              <span className="text-xs font-mono opacity-50" style={{ color: "#182420" }}>
+                {" "}
+                · {t.diseases.length}
+              </span>
+            </div>
+          ))}
+        </div>
+      </footer>
     </main>
   );
 }
