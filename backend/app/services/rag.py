@@ -61,7 +61,7 @@ class AgronomyRAGPipeline:
         self.kb_dir = Path(knowledge_base_dir)
         self.persist_dir = persist_dir
         
-        self.embeddings = FastEmbedEmbeddings(embedding_model)
+        self.embeddings = FastEmbedEmbeddings(model_name=embedding_model)
         
         self.llm = ChatOpenAI(
             model=llm_model, 
