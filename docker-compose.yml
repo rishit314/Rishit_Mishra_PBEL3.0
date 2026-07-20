@@ -1,0 +1,71 @@
+services:
+  redis:
+    image: redis:7.2-alpine
+    container_name: agrovision-redis
+    restart: always
+    ports:
+      - "6379:6379"
+    command: redis-server --save 60 1 --loglevel warning
+    volumes:
+      - redis_data:/data
+    networks:
+      - agro-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: agrovision-backend
+    restart: always
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    environment:
+      - REDIS_URL=redis://redis:6379/0
+      - CHROMA_PERSIST_DIR=/app/data/chroma_db
+      - MODEL_PATH=/app/data/models/efficientnet_b0_edge.onnx
+    volumes:
+      - ./backend/data/models:/app/data/models:ro
+      - ./backend/knowledge_base:/app/knowledge_base
+      - ./backend/data/chroma_db:/app/data/chroma_db
+      - ./knowledge_base:/app/knowledge_base
+      - agrovision_data:/app/data
+    depends_on:
+      redis:
+        condition: service_healthy
+    networks:
+      - agro-network
+
+  frontend:
+    image: node:20-alpine
+    container_name: agrovision-frontend
+    working_dir: /app
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8000
+      - INTERNAL_API_URL=http://backend:8000
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    command: sh -c "npm install && npm run dev"
+    depends_on:
+      - backend
+    networks:
+      - agro-network
+
+volumes:
+  redis_data:
+  chroma_storage:
+  agrovision_data:
+
+networks:
+  agro-network:
+    driver: bridge
