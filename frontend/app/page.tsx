@@ -26,7 +26,7 @@ function AgronomyChatBox({ diagnosis }: { diagnosis: PredictResponse }) {
 
     const userMessage = input.trim();
     setInput("");
-    
+
     // Add user message to screen immediately
     setMessages((prev) => [...prev, { sender: "user", text: userMessage }]);
     setIsLoading(true);
@@ -60,7 +60,7 @@ function AgronomyChatBox({ diagnosis }: { diagnosis: PredictResponse }) {
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
-        
+
         const chunk = decoder.decode(value, { stream: true });
         aiResponseText += chunk;
 
@@ -83,47 +83,39 @@ function AgronomyChatBox({ diagnosis }: { diagnosis: PredictResponse }) {
   };
 
   return (
-    <div className="mt-6 p-6 bg-slate-900/90 rounded-2xl border border-emerald-500/30 shadow-2xl animate-fade-in">
-      <h3 className="text-lg font-bold text-emerald-400 mb-4 flex items-center gap-2">
-        💬 Interactive Agronomy Consultation
-      </h3>
-
+    <div className="flex-1 flex flex-col min-h-0">
       {/* Message History Window */}
-      <div className="h-64 overflow-y-auto pr-2 space-y-3 mb-4 scrollbar-thin scrollbar-thumb-slate-700">
+      <div className="flex-1 overflow-y-auto pr-1 mb-4" style={{ maxHeight: "300px" }}>
         {messages.map((msg, index) => (
-          <div
-            key={index}
-            className={`flex ${msg.sender === "user" ? "justify-end" : "justify-start"}`}
-          >
-            <div
-              className={`max-w-[80%] rounded-xl px-4 py-2.5 text-sm leading-relaxed ${
-                msg.sender === "user"
-                  ? "bg-emerald-600 text-white rounded-br-none font-medium"
-                  : "bg-slate-950 text-slate-300 border border-slate-800 rounded-bl-none"
-              }`}
-            >
+          <div key={index} className="mb-3 text-sm leading-relaxed font-mono">
+            <span style={{ color: msg.sender === "user" ? "#2F7A5C" : "#6FBFA0" }}>
+              {msg.sender === "user" ? "you > " : "agronomist > "}
+            </span>
+            <span style={{ color: msg.sender === "user" ? "#EDF3EE" : "#D8E4D2" }}>
               <ReactMarkdown>
                 {msg.text || (isLoading && index === messages.length - 1 ? "💭 Thinking..." : "")}
               </ReactMarkdown>
-            </div>
+            </span>
           </div>
         ))}
       </div>
 
       {/* Input Form */}
-      <form onSubmit={handleSend} className="flex gap-2">
+      <form onSubmit={handleSend} className="flex items-center gap-2 pt-3" style={{ borderTop: "1px solid #274238" }}>
         <input
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="e.g., What organic fungicide should I apply?"
           disabled={isLoading}
-          className="flex-1 bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-emerald-500 transition-colors disabled:opacity-50"
+          className="flex-1 bg-transparent outline-none text-sm font-mono px-2 py-2 rounded-sm disabled:opacity-50"
+          style={{ color: "#EDF3EE", border: "1px solid #274238" }}
         />
         <button
           type="submit"
           disabled={isLoading || !input.trim()}
-          className="bg-emerald-500 hover:bg-emerald-600 disabled:bg-slate-800 text-slate-950 font-bold px-5 py-2.5 rounded-xl text-sm transition-all shadow-lg hover:shadow-emerald-500/20 disabled:cursor-not-allowed"
+          className="px-5 py-2.5 rounded-sm text-sm font-bold font-mono transition-all disabled:cursor-not-allowed disabled:opacity-30"
+          style={{ background: "#2F7A5C", color: "#0B1712" }}
         >
           Send
         </button>
@@ -142,50 +134,108 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen bg-slate-950 text-slate-100 p-8 flex flex-col items-center">
-      <div className="max-w-2xl w-full">
-        <h1 className="text-3xl font-extrabold text-emerald-400 mb-6 text-center">
-          AgroVision AI Diagnosis
-        </h1>
+    <main className="min-h-screen px-6 md:px-10 py-8" style={{ background: "#DFE8E1", color: "#182420" }}>
+      <div className="max-w-6xl mx-auto">
+        {/* Header */}
+        <header className="pb-6">
+          <div className="flex items-center gap-3">
+            <span className="text-xl font-bold tracking-wide">🌱 AgroVision AI</span>
+          </div>
+          <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1">
+            <span
+              className="text-xs uppercase font-mono font-medium"
+              style={{ color: "#2F7A5C", letterSpacing: "0.12em" }}
+            >
+              Two-Brain Diagnostics
+            </span>
+            <span style={{ color: "#B7C6BC" }}>—</span>
+            <span className="text-sm opacity-70">
+              visual classification, then agronomy consult, in one pass
+            </span>
+          </div>
+          <div className="mt-5 h-px w-full" style={{ background: "#B7C6BC" }} />
+        </header>
 
-        <ImageUploader onPredict={handlePredictionResult} />
+        {/* Main split */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          {/* LEFT: Specimen Intake */}
+          <section
+            className="rounded-sm p-5 md:p-6"
+            style={{ background: "#EBF1EC", border: "1px solid #B7C6BC" }}
+          >
+            <div className="flex items-center gap-2 mb-4">
+              <span
+                className="text-xs uppercase font-semibold font-mono"
+                style={{ letterSpacing: "0.14em" }}
+              >
+                Specimen Intake
+              </span>
+            </div>
 
-        {/* RENDER DIAGNOSIS & CHAT BOX TOGETHER */}
-        {diagnosis && (
-          <div className="space-y-6">
-            {/* Pathology Overview Card */}
-            <div className="mt-8 p-6 bg-slate-900 rounded-2xl border border-emerald-500/30 shadow-2xl animate-fade-in">
-              <div className="flex items-center justify-between border-b border-slate-800 pb-4 mb-4">
-                <div>
-                  <span className="text-xs font-semibold uppercase tracking-wider text-emerald-400">
-                    Detected Pathology
-                  </span>
-                  <h3 className="text-2xl font-bold text-white mt-1">
-                    {diagnosis.crop_name} — {diagnosis.disease_id}
-                  </h3>
+            <ImageUploader onPredict={handlePredictionResult} />
+
+            {diagnosis && (
+              <div className="mt-4 p-4 rounded-sm" style={{ border: "1px solid #B7C6BC", background: "#DFE8E1" }}>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <div
+                      className="text-xs uppercase font-mono opacity-55"
+                      style={{ letterSpacing: "0.1em" }}
+                    >
+                      {diagnosis.crop_name}
+                    </div>
+                    <div className="text-lg font-bold">{diagnosis.disease_id}</div>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-2xl font-semibold font-mono" style={{ color: "#2F7A5C" }}>
+                      {(diagnosis.confidence * 100).toFixed(1)}%
+                    </div>
+                    <div className="text-xs opacity-55">confidence</div>
+                  </div>
                 </div>
-                <div className="bg-emerald-950/80 border border-emerald-500/50 px-4 py-2 rounded-xl text-center">
-                  <span className="block text-xs text-slate-400">Confidence</span>
-                  <span className="text-lg font-bold text-emerald-400">
-                    {(diagnosis.confidence * 100).toFixed(1)}%
-                  </span>
+                <div className="mt-3 h-1.5 w-full rounded-full" style={{ background: "#B7C6BC" }}>
+                  <div
+                    className="h-1.5 rounded-full"
+                    style={{ width: `${diagnosis.confidence * 100}%`, background: "#6FBFA0" }}
+                  />
                 </div>
-              </div>
 
-              <div>
-                <h4 className="text-sm font-semibold text-slate-300 mb-2">
+                <h4 className="mt-4 text-sm font-semibold font-mono opacity-70">
                   📋 Initial Agronomy RAG Summary
                 </h4>
-                <p className="text-slate-300 text-sm leading-relaxed bg-slate-950/60 p-4 rounded-xl border border-slate-800/80">
+                <p
+                  className="mt-2 text-sm leading-relaxed p-3 rounded-sm"
+                  style={{ background: "rgba(11,23,18,0.05)", border: "1px solid #B7C6BC" }}
+                >
                   {diagnosis.initial_summary}
                 </p>
               </div>
+            )}
+          </section>
+
+          {/* RIGHT: Field Consult Log */}
+          <section
+            className="rounded-sm p-5 md:p-6 flex flex-col"
+            style={{ background: "#0F211B", border: "1px solid #274238", minHeight: "420px" }}
+          >
+            <div className="flex items-center gap-2 mb-4">
+              <span
+                className="text-xs uppercase font-semibold font-mono"
+                style={{ color: "#6FBFA0", letterSpacing: "0.14em" }}
+              >
+                Field Consult Log
+              </span>
             </div>
 
-            {/* 5. NEW: The Interactive RAG Chatbox renders automatically! */}
-            <AgronomyChatBox diagnosis={diagnosis} />
-          </div>
-        )}
+            {diagnosis ? (
+              <AgronomyChatBox diagnosis={diagnosis} />
+            ) : (
+              <p className="text-sm font-mono opacity-60" style={{ color: "#9AAE93" }}>
+                &gt; awaiting diagnosis — scan a specimen to open a consult
+              </p>
+            )}
+          </section>
+        </div>
       </div>
     </main>
   );
