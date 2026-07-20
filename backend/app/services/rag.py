@@ -4,7 +4,7 @@ from pathlib import Path
 from typing import Dict, List, Any
 
 # Modern LangChain core and community imports (v0.2+ compatible)
-from langchain_huggingface import HuggingFaceEmbeddings
+from langchain_community.embeddings import FastEmbedEmbeddings
 from langchain_openai import ChatOpenAI 
 from langchain_chroma import Chroma
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
@@ -55,13 +55,13 @@ class AgronomyRAGPipeline:
         self,
         knowledge_base_dir: str = "./knowledge_base",
         persist_dir: str = "./data/chroma_db",
-        embedding_model: str = "all-MiniLM-L6-v2",
+        embedding_model: str = "BAAI/bge-small-en-v1.5",
         llm_model: str = "llama-3.3-70b-versatile",
     ):
         self.kb_dir = Path(knowledge_base_dir)
         self.persist_dir = persist_dir
         
-        self.embeddings = HuggingFaceEmbeddings(model_name=embedding_model)
+        self.embeddings = FastEmbedEmbeddings(embedding_model)
         
         self.llm = ChatOpenAI(
             model=llm_model, 

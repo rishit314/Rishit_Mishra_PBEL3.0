@@ -4,16 +4,16 @@ uvicorn[standard]>=0.30.0
 python-multipart>=0.0.9
 pydantic>=2.7.0
 pydantic-settings>=2.2.0
+uvloop
 
 # --- Vision & Edge Inference ---
-torch>=2.2.0
-torchvision>=0.17.0
 onnxruntime>=1.18.0
 opencv-python-headless>=4.9.0
 numpy>=1.26.0
 pillow>=10.3.0
 
 # --- RAG, LLM & Embeddings ---
+fastembed
 langchain>=0.2.0
 langchain-core>=0.2.0
 langchain-community>=0.2.0
