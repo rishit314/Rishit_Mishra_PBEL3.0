@@ -1,4 +1,11 @@
-# 🌱 AgroVision AI — Enterprise Crop Disease Detection & RAG Core
+# 🌱 AgroVision AI — Crop Disease Detection & RAG Consult bot
+
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Vercel-black?style=for-the-badge&logo=vercel)](https://rishit-mishra-pbel-3-0.vercel.app)
+[![Backend](https://img.shields.io/badge/API-Render-46E3B7?style=for-the-badge&logo=render)](https://agrovision-ai-api.onrender.com/docs)
+
+> **🚀 [Try the Live Interactive Demo Here!](https://your-app-name.vercel.app)**
+>
+> *💡 **DevOps Note:** The FastAPI microservice backend is hosted on a serverless free tier to optimize infrastructure costs. If the app has been idle, **the initial diagnostic request may take ~30 seconds** to wake up the Docker container from cold sleep. All subsequent queries respond instantly!*
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/rishit314/Rishit_Mishra_PBEL3.0)
 ![Docker](https://img.shields.io/badge/Docker-Microservices-2496ED?style=flat&logo=docker&logoColor=white)
