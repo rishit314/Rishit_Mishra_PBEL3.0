@@ -28,5 +28,3 @@ tiktoken>=0.7.0
 # --- Session Caching & Utilities ---
 redis>=5.0.4
 hiredis>=2.3.0
-sentence-transformers>=3.0.0
-langchain-huggingface
