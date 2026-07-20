@@ -1,6 +1,7 @@
 ﻿"use client";
 
 import React, { useState } from "react";
+import ReactMarkdown from "react-markdown";
 import ImageUploader, { PredictResponse } from "@/components/ImageUploader";
 
 // --- 1. THE INTERACTIVE RAG CHAT COMPONENT ---
@@ -101,7 +102,9 @@ function AgronomyChatBox({ diagnosis }: { diagnosis: PredictResponse }) {
                   : "bg-slate-950 text-slate-300 border border-slate-800 rounded-bl-none"
               }`}
             >
-              {msg.text || (isLoading && index === messages.length - 1 ? "💭 Thinking..." : "")}
+              <ReactMarkdown>
+                {msg.text || (isLoading && index === messages.length - 1 ? "💭 Thinking..." : "")}
+              </ReactMarkdown>
             </div>
           </div>
         ))}
