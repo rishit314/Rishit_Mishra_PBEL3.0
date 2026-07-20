@@ -1,5 +1,5 @@
 import React from 'react';
-import './globals.css';
+import "./globals.css";
 export const metadata = {
   title: 'AgroVision AI - Crop Disease Diagnosis',
   description: 'Production RAG & Computer Vision platform for plant pathology.',
