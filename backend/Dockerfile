@@ -45,7 +45,6 @@ ENV PATH="/opt/venv/bin:$PATH"
 # Copy backend application source code and set ownership
 COPY --chown=appuser:appuser backend/app ./app
 COPY --chown=appuser:appuser backend/knowledge_base ./knowledge_base
-COPY --chown=appuser:appuser backend/data ./data
 
 # Switch to unprivileged user
 USER appuser
