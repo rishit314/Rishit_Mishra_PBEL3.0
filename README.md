@@ -1,7 +1,6 @@
 # 🌱 AgroVision AI — Enterprise Crop Disease Detection & RAG Core
 
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/rishit314/Rishit_Mishra_PBEL3.0)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/rishit314/Rishit_Mishra_PBEL3.0)
+
 ![Docker](https://img.shields.io/badge/Docker-Microservices-2496ED?style=flat&logo=docker&logoColor=white)
 ![FastAPI](https://img.shields.io/badge/FastAPI-High%20Performance-009688?style=flat&logo=fastapi&logoColor=white)
 ![ONNX Runtime](https://img.shields.io/badge/ONNX%20Runtime-Edge%20Optimized-005CED?style=flat&logo=onnx&logoColor=white)
