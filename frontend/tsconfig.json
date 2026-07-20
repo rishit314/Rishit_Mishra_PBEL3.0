@@ -32,7 +32,7 @@
     "**/*.tsx",
     "globals.d.ts",
     "app/**/*"
-  ],
+, "postcss.config.mjs"  ],
   "exclude": [
     "node_modules"
   ]
