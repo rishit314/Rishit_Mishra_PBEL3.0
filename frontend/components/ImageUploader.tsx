@@ -20,7 +20,7 @@ export default function ImageUploader({
   onPredict,
   onPredictSuccess,
   onResult,
-  apiEndpoint = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/predict",
+  apiEndpoint = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000",
 }: ImageUploaderProps) {
   const [file, setFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
@@ -76,7 +76,7 @@ export default function ImageUploader({
     formData.append("session_id", "session_" + Math.random().toString(36).substring(2, 9));
 
     try {
-      const response = await fetch(apiEndpoint, {
+      const response = await fetch('${apiEndpoint}/predict', {
         method: "POST",
         body: formData,
       });

@@ -19,7 +19,7 @@ export interface ChatInterfaceProps {
 
 export default function ChatInterface({
   diagnosis,
-  apiEndpoint = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/chat",
+  apiEndpoint = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000",
 }: ChatInterfaceProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputQuery, setInputQuery] = useState<string>("");
@@ -63,7 +63,7 @@ export default function ChatInterface({
     setIsStreaming(true);
 
     try {
-      const response = await fetch(apiEndpoint, {
+      const response = await fetch('${apiEndpoint}/chat', {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
