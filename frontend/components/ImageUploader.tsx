@@ -20,7 +20,7 @@ export default function ImageUploader({
   onPredict,
   onPredictSuccess,
   onResult,
-  apiEndpoint = "http://localhost:8000/predict",
+  apiEndpoint = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/predict",
 }: ImageUploaderProps) {
   const [file, setFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);

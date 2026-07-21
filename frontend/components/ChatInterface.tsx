@@ -19,7 +19,7 @@ export interface ChatInterfaceProps {
 
 export default function ChatInterface({
   diagnosis,
-  apiEndpoint = "http://localhost:8000/chat",
+  apiEndpoint = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/chat",
 }: ChatInterfaceProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputQuery, setInputQuery] = useState<string>("");

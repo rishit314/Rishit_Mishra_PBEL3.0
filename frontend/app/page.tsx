@@ -19,7 +19,7 @@ function AgronomyChatBox({ diagnosis }: { diagnosis: PredictResponse }) {
   ]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
   const handleSend = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim() || isLoading) return;
@@ -33,7 +33,7 @@ function AgronomyChatBox({ diagnosis }: { diagnosis: PredictResponse }) {
 
     try {
       // Connect to your FastAPI /chat streaming endpoint
-      const response = await fetch("http://localhost:8000/chat", {
+      const response = await fetch("${API_URL}/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
