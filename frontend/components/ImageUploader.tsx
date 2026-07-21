@@ -153,7 +153,6 @@ export default function ImageUploader({
           ref={fileInputRef}
           type="file"
           accept="image/*"
-          capture="environment"
           onChange={(e) => e.target.files?.[0] && handleFileSelection(e.target.files[0])}
           className="hidden"
           disabled={isLoading}
