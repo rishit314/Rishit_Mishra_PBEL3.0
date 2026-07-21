@@ -63,7 +63,7 @@ export default function ChatInterface({
     setIsStreaming(true);
 
     try {
-      const response = await fetch('${apiEndpoint}/chat', {
+      const response = await fetch(`${apiEndpoint}/chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

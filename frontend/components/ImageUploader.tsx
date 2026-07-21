@@ -76,7 +76,7 @@ export default function ImageUploader({
     formData.append("session_id", "session_" + Math.random().toString(36).substring(2, 9));
 
     try {
-      const response = await fetch('${apiEndpoint}/predict', {
+      const response = await fetch(`${apiEndpoint}/predict`, {
         method: "POST",
         body: formData,
       });

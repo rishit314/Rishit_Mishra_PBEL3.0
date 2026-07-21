@@ -33,7 +33,7 @@ function AgronomyChatBox({ diagnosis }: { diagnosis: PredictResponse }) {
 
     try {
       // Connect to your FastAPI /chat streaming endpoint
-      const response = await fetch("${API_URL}/chat", {
+      const response = await fetch(`${API_URL}/chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
