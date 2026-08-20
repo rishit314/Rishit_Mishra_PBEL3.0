@@ -56,7 +56,7 @@ class AgronomyRAGPipeline:
         knowledge_base_dir: str = "./knowledge_base",
         persist_dir: str = "./data/chroma_db",
         embedding_model: str = "BAAI/bge-small-en-v1.5",
-        llm_model: str = "llama-3.3-70b-versatile",
+        llm_model: str = "openai/gpt-oss-120b",
     ):
         self.kb_dir = Path(knowledge_base_dir)
         self.persist_dir = persist_dir
