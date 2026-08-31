@@ -1,144 +1,73 @@
-# 🌱 AgroVision AI — Crop Disease Detection & RAG Consult bot
+# 🌿 AgroVision AI — Plant Pathology & Diagnostic RAG System
 
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-Vercel-black?style=for-the-badge&logo=vercel)](https://rishit-mishra-pbel-3-0.vercel.app)
-[![Backend](https://img.shields.io/badge/API-Render-46E3B7?style=for-the-badge&logo=render)](https://agrovision-ai-api.onrender.com/docs)
+[![Backend API](https://img.shields.io/badge/API-Render-46E3B7?style=for-the-badge&logo=render)](https://agrovision-ai-api.onrender.com)
+[![Python 3.11](https://img.shields.io/badge/Python-3.11-3776AB?style=for-the-badge&logo=python)](https://www.python.org/)
+[![Next.js](https://img.shields.io/badge/Next.js-14-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
+> **🚀 [Try the Live Interactive Demo Here!](https://your-app-name.vercel.app)**
+> *💡 **DevOps Note:** The FastAPI backend is hosted on a serverless free tier to optimize infrastructure costs. If the app has been idle, **the initial diagnostic request may take ~30 seconds** to wake up the Docker container from cold sleep. All subsequent queries respond instantly!*
 
-> **🚀 [Try the Live Interactive Demo Here!](https://rishit-mishra-pbel-3-0.vercel.app)**
->
-> *💡 **DevOps Note:** The FastAPI microservice backend is hosted on a serverless free tier to optimize infrastructure costs. If the app has been idle, **the initial diagnostic request may take ~30 seconds** to wake up the Docker container from cold sleep. All subsequent queries respond instantly!*
+## 📖 Overview
 
-![Docker](https://img.shields.io/badge/Docker-Microservices-2496ED?style=flat&logo=docker&logoColor=white)
-![FastAPI](https://img.shields.io/badge/FastAPI-High%20Performance-009688?style=flat&logo=fastapi&logoColor=white)
-![ONNX Runtime](https://img.shields.io/badge/ONNX%20Runtime-Edge%20Optimized-005CED?style=flat&logo=onnx&logoColor=white)
-![Next.js](https://img.shields.io/badge/Next.js-14-black?style=flat&logo=next.dot.js&logoColor=white)
-![TypeScript](https://img.shields.io/badge/TypeScript-Strict-3178C6?style=flat&logo=typescript&logoColor=white)
+AgroVision AI is a full-stack, production-ready machine learning application designed to identify crop diseases from leaf images and instantly provide actionable, context-aware treatment plans. 
 
-An end-to-end, Dockerized machine learning platform that combines **low-latency edge computer vision** with a **context-aware agronomy RAG (Retrieval-Augmented Generation) pipeline** to diagnose plant pathologies and stream actionable, localized treatment protocols in real time.
+By combining a **Convolutional Neural Network (CNN)** for rapid image classification with a **Retrieval-Augmented Generation (RAG)** pipeline, the system bridges the gap between raw computer vision and practical agronomy advice. The architecture is explicitly designed for low-memory environments, successfully containerizing complex ML models into a footprint of less than 512MB.
 
----
+## ✨ Key Features
 
-## ⚡ System Architecture & "Two-Brain" Design
-
-AgroVision AI decouples visual diagnosis from clinical reasoning by splitting inference into a synchronized two-step pipeline:
-
-```text
-[ React / Next.js UI ]
-        │  (Multipart Image Payload)
-        ▼
-[ FastAPI API Gateway ] ──► [ ONNX Vision Engine ] ──► Predicts Class (e.g., Cherry__Healthy : 91.0%)
-        │                                                     │
-        │  (Decouples Crop & Disease ID)                      │
-        ▼                                                     ▼
-[ LangChain RAG Core ] ◄── Context Cache & Vector Search ◄────┘
-        │
-        ▼  (Server-Sent Events / SSE Streaming)
-[ Real-Time Treatment Protocol Display ]
-```
-
-- **The Visual Brain (ONNX Edge Engine):** Instead of running heavy PyTorch dependencies in production, models are exported to lightweight ONNX (Open Neural Network Exchange) graphs. Using custom float32 tensor mathematical preprocessing (CHW transposition and ImageNet normalization), the CPU execution provider achieves sub-50ms inference on low-cost compute nodes.
-- **The Agronomy Brain (LangChain RAG):** Once a pathology is classified across our 29-class taxonomy, the backend queries a localized vector knowledge base. It synthesizes an immediate diagnostic summary and initializes a stateful, streaming Server-Sent Events (SSE) chat interface for deep-dive agronomic consultation.
-
----
-
-## Key Features
-
-- **29-Class Pathology Classification:** Custom-trained EfficientNet-B0 network capable of distinguishing complex fungal, bacterial, and viral plant diseases across crops like tomatoes, apples, potatoes, corn, and grapes.
-- **Zero-Blocking SSE Streaming:** The `/chat` endpoint bypasses I/O blocking by streaming markdown treatment advice token-by-token using asynchronous Python generators and LangChain runnables.
-- **Resilient Docker Microservices:** Completely containerized frontend, backend, and persistence layers with isolated volume mounting for hot-swapping model weights (`.onnx`) without rebuilding containers.
-- **Strict TypeScript / UI Reliability:** A responsive Tailwind CSS frontend utilizing polymorphic TypeScript interfaces (`onPredict`, `onResult`) to prevent rendering crashes and state loss during asynchronous fetches.
-
----
+* **CNN Image Classification:** Utilizes a custom-trained Convolutional Neural Network (CNN) exported to ONNX format to accurately diagnose plant diseases directly from uploaded leaf images.
+* **RAG-Powered Treatment Plans:** LangChain and ChromaDB index vetted agricultural knowledge, streaming real-time, highly relevant mitigation strategies using the Groq LLM API.
+* **Memory-Optimized Inference:** Eliminated 2.4GB of heavy PyTorch dependencies by switching to CPU-native ONNX Runtime and FastEmbed, ensuring the entire microservice runs on a lightweight free-tier cloud container.
+* **Decoupled Architecture:** A responsive Next.js frontend securely communicates with an isolated FastAPI Docker backend via REST APIs.
 
 ## 🛠️ Technology Stack
 
-| Layer | Technologies Used | Key Responsibilities |
-|---|---|---|
-| **Frontend** | Next.js, React, TypeScript, Tailwind CSS | Drag-and-drop ingestion, state management, real-time SSE chat rendering |
-| **API Gateway** | Python 3.10+, FastAPI, Pydantic v2, Uvicorn | Request validation, asynchronous I/O, CORS handling, session context caching |
-| **Vision Engine** | ONNX Runtime, NumPy, Pillow (PIL) | Tensor normalization, softmax probability decoding, argmax classification |
-| **RAG / AI Core** | LangChain, Vector Storage (ChromaDB/SQLite) | Contextual information retrieval, prompt engineering, streaming LLM wrappers |
-| **DevOps** | Docker, Docker Compose, Git | Multi-stage container builds, volume persistence, environment isolation |
+**Frontend (Client)**
+* **Framework:** Next.js, React
+* **Styling:** Tailwind CSS
+* **Deployment:** Vercel
 
----
+**Backend (Microservice)**
+* **Framework:** FastAPI, Uvicorn
+* **Containerization:** Docker, Docker Compose
+* **Deployment:** Render (Free Tier)
 
-## 🚀 Quickstart & Local Deployment
+**Machine Learning & AI**
+* **Computer Vision:** Convolutional Neural Network (CNN), ONNX Runtime, OpenCV
+* **RAG Pipeline:** LangChain, ChromaDB, FastEmbed (ONNX-native embeddings)
+* **LLM Engine:** Groq API
 
-Because the entire infrastructure is containerized, you can launch the production stack on any OS with just three commands—no local Python or Node modules required.
+## 🚀 Local Development Setup
 
-### Prerequisites
+To run this project locally on your machine, you will need [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed.
 
-- Docker Desktop installed and running.
-- Git installed.
-
-### 1. Clone the Repository
-
+### 1. Clone the repository
 ```bash
-git clone https://github.com/rishit314/Rishit_Mishra_PBEL3.0.git
+git clone [https://github.com/yourusername/Rishit_Mishra_PBEL3.0.git](https://github.com/yourusername/Rishit_Mishra_PBEL3.0.git)
 cd Rishit_Mishra_PBEL3.0
 ```
 
-### 2. Configure Environment Secrets
+### 2. Set up Environment Variables
+Create a `.env` file in the root directory (or inside the `backend/` folder depending on your compose setup) and add your Groq API key:
+```env
+GROQ_API_KEY=gsk_your_api_key_here
+```
 
-Copy the template environment file to create your local secrets configuration:
-
+### 3. Build and run with Docker Compose
+The `docker-compose.yml` is configured to build the backend from the `./backend` context automatically.
 ```bash
-# On Windows PowerShell:
-Copy-Item .env.example .env
-
-# On macOS/Linux:
-cp .env.example .env
+docker compose up -d --build backend
 ```
 
-Open `.env` and insert your LLM API keys if utilizing the active live RAG chat streaming.
+### 4. Access the Local App
+* **Backend API / Swagger UI:** `http://localhost:8000/docs`
+* **Frontend:** If running the Next.js app locally, run `npm run dev` in the `frontend` folder and visit `http://localhost:3000`.
 
-### 3. Build and Launch the Microservices
+## 🧠 System Architecture
 
-```bash
-docker compose up -d --build
-```
-
-- 🌐 **Frontend Application:** [http://localhost:3000](http://localhost:3000)
-- 🔌 **FastAPI Interactive Docs (Swagger):** [http://localhost:8000/docs](http://localhost:8000/docs)
-
----
-
-## 📊 Model & Dataset Taxonomy
-
-The ONNX vision engine is trained to recognize 29 distinct classes, ensuring precision across common agricultural disease vectors:
-
-- **Apple:** Scab, Black Rot, Cedar Rust, Healthy
-- **Bell Pepper:** Bacterial Spot, Healthy
-- **Cherry:** Powdery Mildew, Healthy
-- **Corn (Maize):** Cercospora Leaf Spot, Common Rust, Northern Leaf Blight, Healthy
-- **Grape:** Black Rot, Esca (Black Measles), Leaf Blight, Healthy
-- **Peach:** Bacterial Spot, Healthy
-- **Potato:** Early Blight, Late Blight, Healthy
-- **Strawberry:** Leaf Scorch, Healthy
-- **Tomato:** Bacterial Spot, Early Blight, Late Blight, Septoria Leaf Spot, Yellow Leaf Curl Virus, Healthy
-
----
-
-## 💻 API Endpoints Summary
-
-### `POST /predict`
-
-Accepts multipart image form data. Returns pathology classification, exact confidence metrics, and a synthesized agronomic RAG summary.
-
-```json
-{
-  "disease_id": "Healthy",
-  "crop_name": "Cherry",
-  "confidence": 0.9097,
-  "initial_summary": "Detected Healthy on Cherry with 91.0% confidence."
-}
-```
-
-### `POST /chat`
-
-Accepts JSON session context and conversational queries. Returns an asynchronous Text/Event-Stream (SSE) delivering real-time guidance based on the prior prediction state.
-
----
-
-## 📝 License
-
-This project is licensed under the MIT License. See the `LICENSE` file for details.
+1. **User Upload:** User submits a leaf photo via the Vercel-hosted Next.js frontend.
+2. **REST API:** The image is sent as a `multipart/form-data` POST request to the FastAPI backend.
+3. **CNN Inference:** The image is preprocessed using OpenCV and passed through the ONNX-optimized CNN model to extract the disease classification.
+4. **Vector Search:** The classification string triggers a similarity search in ChromaDB (using FastEmbed) to retrieve relevant agricultural treatments.
+5. **LLM Generation:** The retrieved context and classification are passed to Groq to generate a final, readable treatment plan.
+6. **Client Render:** The JSON response is returned to the frontend and rendered in dynamic UI cards.
