@@ -4,7 +4,7 @@
 [![Backend API](https://img.shields.io/badge/API-Render-46E3B7?style=for-the-badge&logo=render)](https://agrovision-ai-api.onrender.com)
 [![Python 3.11](https://img.shields.io/badge/Python-3.11-3776AB?style=for-the-badge&logo=python)](https://www.python.org/)
 [![Next.js](https://img.shields.io/badge/Next.js-14-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
-> **🚀 [Try the Live Interactive Demo Here!](https://your-app-name.vercel.app)**
+> **🚀 [Try the Live Interactive Demo Here!](https://rishit-mishra-pbel-3-0.vercel.app)**
 > *💡 **DevOps Note:** The FastAPI backend is hosted on a serverless free tier to optimize infrastructure costs. If the app has been idle, **the initial diagnostic request may take ~30 seconds** to wake up the Docker container from cold sleep. All subsequent queries respond instantly!*
 
 ## 📖 Overview
